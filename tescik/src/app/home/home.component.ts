@@ -1,14 +1,14 @@
 import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
-import { SpotifyAuthService } from './spotify-auth.service';
+import { SpotifyAuthService } from '../spotify-auth.service';
 
 @Component({
-  selector: 'app-root',
-  standalone: true,
-  imports: [RouterOutlet],
-  templateUrl: './app.html',
+  selector: 'app-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.css']
 })
-export class App {
+export class HomeComponent {
+
   constructor(private auth: SpotifyAuthService) {}
 
   login() {
