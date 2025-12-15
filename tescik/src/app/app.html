@@ -1,3 +1,11 @@
+<!-- @if (!isLogged){
+<div style="text-align:center; margin-top: 50px;">
+  <h1>Spotify autoryzacja</h1>
+  <button (click)="login()">Zaloguj przez Spotify</button>
+</div>
+} @else{
+<router-outlet></router-outlet>
+} -->
 
 <div style="text-align:center; margin-top: 50px;">
   <h1>Spotify autoryzacja</h1>
@@ -5,3 +13,5 @@
 </div>
 
 <router-outlet></router-outlet>
+
+
