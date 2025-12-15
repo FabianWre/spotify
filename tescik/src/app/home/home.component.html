@@ -1,1 +1,49 @@
-<h1>test</h1>
+<div
+  style="
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
+  "
+>
+
+  <div *ngIf="userName">
+     {{ userName }}
+  </div>
+</div>
+
+
+<h1>Twoje playlisty</h1>
+
+<button (click)="loadPlaylists()">
+  Pobierz playlisty
+</button>
+
+<p *ngIf="loading">⏳ Ładowanie...</p>
+
+<div *ngIf="playlists.length > 0" style="margin-top: 20px;">
+  <div
+    *ngFor="let playlist of playlists"
+    style="
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      margin-bottom: 15px;
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    "
+  >
+    <img
+      *ngIf="playlist.images?.length"
+      [src]="playlist.images[0].url"
+      alt="Okładka playlisty"
+      width="80"
+      height="80"
+      style="border-radius: 6px;"
+    />
+    <div>
+      <strong>{{ playlist.name }}</strong><br>
+      Utworów: {{ playlist.tracks.total }}
+    </div>
+  </div>
+</div>

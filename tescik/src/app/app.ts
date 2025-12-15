@@ -22,7 +22,6 @@ export class App implements OnInit {
 
   login() {
     this.auth.login();
-  
   }
 
 private getIsLogged(): boolean {

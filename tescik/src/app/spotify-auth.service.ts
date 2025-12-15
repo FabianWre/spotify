@@ -12,18 +12,21 @@ export class SpotifyAuthService {
 
   constructor(private http: HttpClient) {}
 
-  login() {
-    const scopes = 'user-read-email user-read-private';
+ login() {
+  const scopes = [
+    'playlist-read-private',
+    'playlist-read-collaborative'
+  ].join(' ');
 
-    const authUrl =
-      'https://accounts.spotify.com/authorize?' +
-      'client_id=' + this.clientId +
-      '&response_type=code' +
-      '&redirect_uri=' + encodeURIComponent(this.redirectUri) +
-      '&scope=' + encodeURIComponent(scopes);
+  const url =
+    'https://accounts.spotify.com/authorize' +
+    '?response_type=code' +
+    '&client_id=' + this.clientId +
+    '&scope=' + encodeURIComponent(scopes) +
+    '&redirect_uri=' + encodeURIComponent(this.redirectUri);
 
-    window.location.href = authUrl;
-  }
+  window.location.href = url;
+}
 
   getAccessToken(code: string) {
     const url = 'https://accounts.spotify.com/api/token';
@@ -41,4 +44,26 @@ export class SpotifyAuthService {
 
     return this.http.post(url, body.toString(), { headers });
   }
+
+  getUserPlaylists() {
+  const token = localStorage.getItem('spotify_access_token');
+
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`
+  });
+
+  return this.http.get(
+    'https://api.spotify.com/v1/me/playlists',
+    { headers }
+  );
+}
+getCurrentUser() {
+  const token = localStorage.getItem('spotify_access_token');
+
+  const headers = new HttpHeaders({
+    Authorization: `Bearer ${token}`
+  });
+
+  return this.http.get('https://api.spotify.com/v1/me', { headers });
+}
 }
