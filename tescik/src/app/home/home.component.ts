@@ -9,9 +9,9 @@ import { SpotifyAuthService } from '../spotify-auth.service';
   imports: [CommonModule],
   templateUrl: './home.component.html'
 })
-
 export class HomeComponent implements OnInit {
 
+  user: any = null;
   playlists: any[] = [];
   loading = false;
 
@@ -21,37 +21,39 @@ export class HomeComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-  const token = localStorage.getItem('spotify_access_token');
+    const token = localStorage.getItem('spotify_access_token');
 
-  if (!token) {
-    this.router.navigate(['/']);
-    return;
-  }
-
-  this.auth.getCurrentUser().subscribe({
-    next: (user: any) => {
-      this.userName = user.display_name;
-    },
-    error: err => {
-      console.error('Błąd pobierania użytkownika', err);
+    if (!token) {
+      this.router.navigate(['/']);
+      return;
     }
-  });
-}
+
+    this.auth.getCurrentUser().subscribe({
+      next: (user: any) => {
+        this.user = user;
+      },
+      error: () => {
+        this.logout();
+      }
+    });
+  }
 
   loadPlaylists() {
     this.loading = true;
 
     this.auth.getUserPlaylists().subscribe({
       next: (res: any) => {
-        this.playlists = res.items;
+        this.playlists = res.items || [];
         this.loading = false;
       },
-      error: err => {
-        console.error('❌ Błąd:', err);
+      error: () => {
         this.loading = false;
       }
     });
   }
-  userName: string | null = null;
-  
+
+  logout() {
+    localStorage.clear();
+    this.router.navigate(['/']);
+  }
 }

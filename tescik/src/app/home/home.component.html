@@ -1,49 +1,43 @@
-<div
-  style="
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-  "
->
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:20px;">
+  <h1>Twoje playlisty</h1>
 
-  <div *ngIf="userName">
-     {{ userName }}
+  <div *ngIf="user">
+    <div style="display:flex; align-items:center; gap:10px;">
+      <img
+        *ngIf="user.images?.length"
+        [src]="user.images[0].url"
+        width="40"
+        height="40"
+        style="border-radius:50%"
+      />
+      <strong>{{ user.display_name }}</strong>
+    </div>
+
+    <button (click)="logout()" style="margin-top:4px;">
+      Wyloguj
+    </button>
   </div>
 </div>
 
+<button (click)="loadPlaylists()">Pobierz playlisty</button>
 
-<h1>Twoje playlisty</h1>
-
-<button (click)="loadPlaylists()">
-  Pobierz playlisty
-</button>
-
-<p *ngIf="loading">⏳ Ładowanie...</p>
-
-<div *ngIf="playlists.length > 0" style="margin-top: 20px;">
+<div *ngIf="playlists.length">
   <div
     *ngFor="let playlist of playlists"
-    style="
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      margin-bottom: 15px;
-      border-bottom: 1px solid #ccc;
-      padding-bottom: 10px;
-    "
+    style="margin-top:15px; display:flex; gap:15px;"
   >
     <img
       *ngIf="playlist.images?.length"
       [src]="playlist.images[0].url"
-      alt="Okładka playlisty"
       width="80"
       height="80"
-      style="border-radius: 6px;"
+      style="border-radius:6px"
     />
+
     <div>
-      <strong>{{ playlist.name }}</strong><br>
+      <strong>{{ playlist.name }}</strong><br />
       Utworów: {{ playlist.tracks.total }}
+      
     </div>
   </div>
 </div>
